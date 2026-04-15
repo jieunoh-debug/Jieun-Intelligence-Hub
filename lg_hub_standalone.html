@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LG Group — AE Intelligence Hub</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f5f5f0;color:#1a1a18;font-size:16px;line-height:1.7}
+  .hub{max-width:900px;margin:0 auto;padding:1.5rem 1rem}
+
+  /* HEADER */
+  .header{padding:1.5rem;background:#ebebE5;border-radius:12px;border:0.5px solid rgba(0,0,0,0.12);margin-bottom:1.5rem}
+  .header-top{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+  .badge{font-size:11px;padding:3px 10px;border-radius:6px;background:#dbeafe;color:#1e40af;font-weight:500}
+  .header h1{font-size:22px;font-weight:500;color:#1a1a18}
+  .header p{font-size:14px;color:#666660;margin-top:4px}
+  .meta{display:flex;gap:1.5rem;margin-top:10px;flex-wrap:wrap}
+  .meta-item{font-size:12px;color:#666660}
+  .meta-item span{color:#1a1a18;font-weight:500}
+
+  /* TABS */
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.5rem}
+  .tab{padding:7px 16px;font-size:13px;border:0.5px solid rgba(0,0,0,0.15);border-radius:6px;background:#fff;color:#666660;cursor:pointer;transition:all 0.15s}
+  .tab:hover{background:#ebebE5;color:#1a1a18}
+  .tab.active{background:#dbeafe;color:#1e40af;border-color:transparent}
+
+  /* SECTIONS */
+  .section{display:none}
+  .section.active{display:block}
+  .section-title{font-size:15px;font-weight:500;color:#1a1a18;margin-bottom:1rem}
+
+  /* CARDS */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin-bottom:1.5rem}
+  .card{background:#fff;border:0.5px solid rgba(0,0,0,0.12);border-radius:12px;padding:1rem 1.25rem}
+  .card-label{font-size:12px;color:#666660;margin-bottom:4px}
+  .card-value{font-size:18px;font-weight:500;color:#1a1a18}
+  .card-sub2{font-size:11px;color:#888780;margin-top:1px}
+  .card-sub{font-size:12px;color:#666660;margin-top:2px}
+  .card-pos{font-size:12px;color:#166534;margin-top:2px}
+  .card-neg{font-size:12px;color:#991b1b;margin-top:2px}
+
+  /* BLOCK */
+  .block{background:#fff;border:0.5px solid rgba(0,0,0,0.12);border-radius:12px;padding:1.25rem;margin-bottom:1rem}
+  .block h3{font-size:15px;font-weight:500;color:#1a1a18;margin-bottom:12px}
+  .row-item{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 0;border-bottom:0.5px solid rgba(0,0,0,0.08);gap:12px}
+  .row-item:last-child{border-bottom:none}
+  .row-label{font-size:13px;color:#666660;flex-shrink:0;width:160px}
+  .row-val{font-size:13px;color:#1a1a18;flex:1;text-align:right}
+
+  /* PILLS */
+  .pill{display:inline-block;font-size:11px;padding:2px 8px;border-radius:6px;margin-left:6px}
+  .pill-warn{background:#fef3c7;color:#92400e}
+  .pill-info{background:#dbeafe;color:#1e40af}
+  .pill-success{background:#dcfce7;color:#166534}
+  .pill-danger{background:#fee2e2;color:#991b1b}
+  .pill-neutral{background:#ebebE5;color:#444441}
+
+  /* BAR CHART */
+  .bar-wrap{margin-top:6px}
+  .bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .bar-name{font-size:12px;color:#666660;width:160px;flex-shrink:0}
+  .bar-track{flex:1;height:8px;background:#ebebE5;border-radius:4px;overflow:hidden}
+  .bar-fill{height:100%;border-radius:4px}
+  .bar-amt{font-size:12px;color:#1a1a18;width:80px;text-align:right;flex-shrink:0}
+
+  /* TWO COL */
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:600px){.two-col{grid-template-columns:1fr}}
+
+  /* SUB GRID */
+  .sub-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:1rem}
+  .sub-card{background:#fff;border:0.5px solid rgba(0,0,0,0.12);border-radius:12px;padding:.9rem 1rem}
+  .sub-name{font-size:12px;color:#666660;margin-bottom:3px}
+  .sub-rev{font-size:15px;font-weight:500;color:#1a1a18}
+  .sub-rev2{font-size:11px;color:#888780;margin-top:1px}
+  .sub-note{font-size:11px;margin-top:4px}
+  .fx-note{font-size:11px;color:#888780;margin-top:4px}
+
+  /* OPPORTUNITY CARDS */
+  .opp-card{background:#f5f5f0;border-radius:12px;border:0.5px solid rgba(0,0,0,0.12);padding:1.25rem;margin-bottom:10px}
+  .opp-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;gap:8px;flex-wrap:wrap}
+  .opp-title{font-size:14px;font-weight:500;color:#1a1a18}
+  .opp-amt{font-size:14px;font-weight:500;color:#1e40af;white-space:nowrap}
+  .opp-row{display:flex;gap:8px;align-items:flex-start;margin-bottom:5px}
+  .opp-key{font-size:12px;color:#666660;width:110px;flex-shrink:0;padding-top:1px}
+  .opp-v{font-size:12px;color:#1a1a18;flex:1;line-height:1.6}
+
+  /* BUZZING KEYWORDS */
+  .buzz-tag{display:inline-block;font-size:11px;padding:2px 9px;border-radius:6px;background:#fef3c7;color:#92400e;margin-right:5px;margin-top:2px}
+
+  /* CONTACT CHIPS */
+  .contact-chip{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:3px 9px;border-radius:6px;background:#fff;border:0.5px solid rgba(0,0,0,0.12);color:#666660;margin-right:5px;margin-top:2px}
+  .contact-chip strong{color:#1a1a18;font-weight:500}
+
+  /* PARTNER BANNER */
+  .partner-banner{background:#dbeafe;border:0.5px solid rgba(30,64,175,0.2);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem}
+  .partner-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+  .partner-left h4{font-size:14px;font-weight:500;color:#1e40af}
+  .partner-left p{font-size:12px;color:#1e40af;margin-top:3px;opacity:.85}
+  .champion-row{display:flex;align-items:center;gap:8px;padding-top:8px;border-top:0.5px solid rgba(30,64,175,0.25)}
+  .champion-label{font-size:11px;color:#1e40af;opacity:.8;white-space:nowrap}
+  .champion-chip{display:inline-flex;align-items:center;font-size:12px;padding:3px 10px;border-radius:6px;background:#fff;color:#1a1a18;font-weight:500}
+
+  /* REGION TABS */
+  .rtabs{display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap}
+  .rtab{padding:5px 14px;font-size:12px;border:0.5px solid rgba(0,0,0,0.15);border-radius:6px;background:#fff;color:#666660;cursor:pointer;transition:all 0.15s;font-weight:500}
+  .rtab:hover{background:#f5f5f0}
+  .rtab.active{background:#fef3c7;color:#92400e;border-color:transparent}
+  .rsection{display:none}
+  .rsection.active{display:block}
+  .region-header{display:flex;align-items:center;gap:10px;margin-bottom:1rem;flex-wrap:wrap}
+  .region-badge{font-size:13px;font-weight:500;padding:4px 14px;border-radius:6px}
+  .rb-amer{background:#fee2e2;color:#991b1b}
+  .rb-apac{background:#dcfce7;color:#166534}
+  .rb-emea{background:#fef3c7;color:#92400e}
+
+  /* SUB ENTITY */
+  .sub-entity{background:#f5f5f0;border:0.5px solid rgba(0,0,0,0.12);border-radius:12px;padding:1rem 1.25rem;margin-bottom:10px}
+  .sub-entity-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;gap:8px;flex-wrap:wrap}
+  .sub-entity-name{font-size:14px;font-weight:500;color:#1a1a18}
+  .sub-entity-hq{font-size:11px;color:#666660;margin-top:2px}
+  .sub-biz{font-size:12px;color:#666660;line-height:1.6;margin-bottom:6px}
+  .sub-tags{display:flex;flex-wrap:wrap;gap:5px}
+  .sub-tag{font-size:11px;padding:2px 8px;border-radius:6px;background:#fff;border:0.5px solid rgba(0,0,0,0.12);color:#666660}
+
+  /* BUSINESS OUTCOME CARDS */
+  .bo-card{border:0.5px solid rgba(0,0,0,0.12);border-radius:12px;overflow:hidden;margin-bottom:1rem}
+  .bo-header{padding:1rem 1.25rem;background:#f5f5f0;cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;user-select:none}
+  .bo-header:hover{background:#ebebE5}
+  .bo-num{font-size:11px;font-weight:500;color:#888780;flex-shrink:0;margin-top:2px;white-space:nowrap}
+  .bo-title{font-size:14px;font-weight:500;color:#1a1a18;flex:1}
+  .bo-toggle{font-size:18px;color:#888780;flex-shrink:0;line-height:1}
+  .bo-body{display:none;padding:1.25rem;border-top:0.5px solid rgba(0,0,0,0.08);background:#fff}
+  .bo-body.open{display:block}
+  .bo-section-label{font-size:11px;font-weight:500;color:#888780;letter-spacing:.05em;margin-bottom:5px;margin-top:14px;text-transform:uppercase}
+  .bo-section-label:first-child{margin-top:0}
+  .bo-text{font-size:13px;color:#1a1a18;line-height:1.7}
+  .bo-why{font-size:13px;color:#666660;line-height:1.7}
+  .bo-sources{display:flex;flex-direction:column;gap:4px;margin-top:4px}
+  .bo-link{font-size:12px;color:#1e40af;word-break:break-all;text-decoration:none}
+  .bo-link:hover{text-decoration:underline}
+
+  /* NEXT ACTION */
+  .block .row-label{color:#666660}
+</style>
+</head>
+<body>
+<div class="hub">
+
+  <div class="header">
+    <div class="header-top"><span class="badge">FY2026</span></div>
+    <h1>LG Group — AE Intelligence Hub</h1>
+    <p>LG Electronics and their subsidiaries</p>
+    <div class="meta">
+      <div class="meta-item">Last updated: <span>Apr 2026</span></div>
+      <div class="meta-item">FX rate: <span>1 USD = 1,470 KRW (Apr 14, 2026)</span></div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="showTab('overview',event)">Overview</div>
+    <div class="tab" onclick="showTab('org',event)">HQ Opportunity</div>
+    <div class="tab" onclick="showTab('approach',event)">Regional Approach</div>
+    <div class="tab" onclick="showTab('insight',event)">Sales Insights</div>
+  </div>
+
+  <!-- ═══════════════ OVERVIEW ═══════════════ -->
+  <div id="overview" class="section active">
+    <p class="section-title">LG Group — Financial Snapshot (FY2025 Full-Year Results)</p>
+    <div class="cards">
+      <div class="card"><div class="card-label">LG Electronics revenue</div><div class="card-value">~$60.7B</div><div class="card-sub2">KRW 89.2T</div><div class="card-pos">Record high — 2nd consecutive year</div></div>
+      <div class="card"><div class="card-label">LG Electronics op. profit</div><div class="card-value">~$1.69B</div><div class="card-sub2">KRW 2.48T</div><div class="card-sub">B2B & webOS driving growth</div></div>
+      <div class="card"><div class="card-label">LG Energy Solution revenue</div><div class="card-value">~$16.1B</div><div class="card-sub2">KRW 23.7T</div><div class="card-neg">EV demand softness pressuring margins</div></div>
+      <div class="card"><div class="card-label">LG Chem revenue</div><div class="card-value">~$33.3B</div><div class="card-sub2">KRW 48.9T</div><div class="card-neg">–11.5% YoY (incl. LGES)</div></div>
+    </div>
+
+    <div class="block">
+      <h3>Revenue by Major Subsidiary (FY2024–2025)</h3>
+      <div class="bar-wrap">
+        <div class="bar-row"><div class="bar-name">LG Electronics</div><div class="bar-track"><div class="bar-fill" style="width:100%;background:#378ADD"></div></div><div class="bar-amt">~$60.7B</div></div>
+        <div class="bar-row"><div class="bar-name">LG Chem (incl. LGES)</div><div class="bar-track"><div class="bar-fill" style="width:55%;background:#1D9E75"></div></div><div class="bar-amt">~$33.3B</div></div>
+        <div class="bar-row"><div class="bar-name">LG Energy Solution</div><div class="bar-track"><div class="bar-fill" style="width:27%;background:#7F77DD"></div></div><div class="bar-amt">~$16.1B</div></div>
+        <div class="bar-row"><div class="bar-name">LG Display</div><div class="bar-track"><div class="bar-fill" style="width:24%;background:#D85A30"></div></div><div class="bar-amt">~$14.3B</div></div>
+        <div class="bar-row"><div class="bar-name">LG H&amp;H</div><div class="bar-track"><div class="bar-fill" style="width:17%;background:#D4537E"></div></div><div class="bar-amt">~$10.2B</div></div>
+        <div class="bar-row"><div class="bar-name">LG U+</div><div class="bar-track"><div class="bar-fill" style="width:14%;background:#888780"></div></div><div class="bar-amt">~$8.8B</div></div>
+        <div class="bar-row"><div class="bar-name">LG CNS</div><div class="bar-track"><div class="bar-fill" style="width:7%;background:#639922"></div></div><div class="bar-amt">~$4.1B</div></div>
+      </div>
+      <div class="fx-note">* KRW converted at 1 USD = 1,470 KRW (Apr 14, 2026). LG Display, H&amp;H, U+ are public estimates.</div>
+    </div>
+
+    <div class="two-col">
+      <div class="block">
+        <h3>LG Electronics — Revenue by Region</h3>
+        <div class="row-item"><div class="row-label">Korea</div><div class="row-val">~18% <span class="pill pill-info">HQ strategic hub</span></div></div>
+        <div class="row-item"><div class="row-label">Americas</div><div class="row-val">~28% <span class="pill pill-success">Largest single market</span></div></div>
+        <div class="row-item"><div class="row-label">Europe (EMEA)</div><div class="row-val">~22%</div></div>
+        <div class="row-item"><div class="row-label">Asia (APAC)</div><div class="row-val">~20% <span class="pill pill-warn">High growth</span></div></div>
+        <div class="row-item"><div class="row-label">Other (CIS·ME·LA)</div><div class="row-val">~12%</div></div>
+      </div>
+      <div class="block">
+        <h3>LG Electronics — Revenue by Business Unit</h3>
+        <div class="row-item"><div class="row-label">H&amp;A (Home Appliance)</div><div class="row-val">~38% <span class="pill pill-success">9 yrs consecutive</span></div></div>
+        <div class="row-item"><div class="row-label">HE (TV / Display)</div><div class="row-val">~22%</div></div>
+        <div class="row-item"><div class="row-label">VS (Vehicle Solutions)</div><div class="row-val">~14% <span class="pill pill-success">9 yrs consecutive</span></div></div>
+        <div class="row-item"><div class="row-label">BS (B2B Solutions)</div><div class="row-val">~12% <span class="pill pill-warn">Strategic focus</span></div></div>
+        <div class="row-item"><div class="row-label">LG Innotek &amp; other</div><div class="row-val">~14%</div></div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3>Top Performing Subsidiaries</h3>
+      <div class="sub-grid">
+        <div class="sub-card"><div class="sub-name">LG Electronics</div><div class="sub-rev">~$60.7B</div><div class="sub-rev2">KRW 89.2T</div><div class="sub-note"><span class="pill pill-success">All-time record</span></div></div>
+        <div class="sub-card"><div class="sub-name">LG Electronics (Vietnam)</div><div class="sub-rev">$3.84B</div><div class="sub-note"><span class="pill pill-success">+9.8% YoY</span></div></div>
+        <div class="sub-card"><div class="sub-name">LG Innotek (Vietnam)</div><div class="sub-rev">$3.7B</div><div class="sub-note"><span class="pill pill-neutral">Global rank #4</span></div></div>
+        <div class="sub-card"><div class="sub-name">LG Electronics (US)</div><div class="sub-rev">Largest single sub.</div><div class="sub-note"><span class="pill pill-info">Americas ~28%</span></div></div>
+        <div class="sub-card"><div class="sub-name">LG Energy Solution</div><div class="sub-rev">~$16.1B</div><div class="sub-rev2">KRW 23.7T</div><div class="sub-note"><span class="pill pill-warn">Margin pressure</span></div></div>
+        <div class="sub-card"><div class="sub-name">LG CNS</div><div class="sub-rev">~$4.1B</div><div class="sub-rev2">KRW ~6T</div><div class="sub-note"><span class="pill pill-info">Global partnership in review</span></div></div>
+      </div>
+      <div class="fx-note">* Source: LG Corp. IR, PitchBook, official disclosures (2025–2026). Converted at 1 USD = 1,470 KRW.</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ HQ OPPORTUNITY ═══════════════ -->
+  <div id="org" class="section">
+    <p class="section-title">HQ Opportunity &amp; Activity Status</p>
+
+    <div class="partner-banner">
+      <div class="partner-top">
+        <div class="partner-left">
+          <h4>Current Partnership — LG CNS</h4>
+          <p>Reviewing internally · Global partnership discussion in progress</p>
+        </div>
+        <span class="pill pill-warn" style="margin-left:0;font-size:12px;padding:4px 12px">In Review</span>
+      </div>
+      <div class="champion-row">
+        <span class="champion-label">Our champion</span>
+        <span class="champion-chip">Sungin Kim — Leader, Digital Marketing &amp; AX Division</span>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3>Current Opportunities (3 active)</h3>
+
+      <div class="opp-card">
+        <div class="opp-header"><div><div class="opp-title">LG Energy Solution</div><div style="font-size:12px;color:#666660;margin-top:2px">Korea · PR Cases</div></div><div class="opp-amt">$65K</div></div>
+        <div class="opp-row"><div class="opp-key">Product</div><div class="opp-v">Explore &amp; GenAI Lens</div></div>
+        <div class="opp-row"><div class="opp-key">Stage</div><div class="opp-v"><span class="pill pill-warn">KR_65K — Active</span></div></div>
+        <div class="opp-row"><div class="opp-key">Use case</div><div class="opp-v">Crisis monitoring, Brand narrative intelligence</div></div>
+        <div class="opp-row"><div class="opp-key">Buzzing keywords</div><div class="opp-v"><span class="buzz-tag">GEO strategy</span><span class="buzz-tag">AI powered actionable insight</span></div></div>
+        <div class="opp-row"><div class="opp-key">Contacts</div><div class="opp-v"><span class="contact-chip"><strong>Seungyeon Lee</strong> — Leader, Global Communication Team</span><span class="contact-chip"><strong>Sojung Kim</strong> — Project Owner, Global Communication Team</span></div></div>
+      </div>
+
+      <div class="opp-card">
+        <div class="opp-header"><div><div class="opp-title">LG Display CN <span style="font-weight:400;font-size:12px">via LG CNS</span></div><div style="font-size:12px;color:#666660;margin-top:2px">China · Marketing</div></div><div class="opp-amt">$100K</div></div>
+        <div class="opp-row"><div class="opp-key">Product</div><div class="opp-v">Explore+ with MCS data</div></div>
+        <div class="opp-row"><div class="opp-key">Stage</div><div class="opp-v"><span class="pill pill-info">Active — routed via LG CNS</span></div></div>
+        <div class="opp-row"><div class="opp-key">Use case</div><div class="opp-v">Consumer insights through AI on the specific market</div></div>
+        <div class="opp-row"><div class="opp-key">Buzzing keywords</div><div class="opp-v"><span class="buzz-tag">Consumer insight in gaming monitor trend</span></div></div>
+        <div class="opp-row"><div class="opp-key">Contacts</div><div class="opp-v"><span class="contact-chip">Communicating through CNS — to be updated</span></div></div>
+      </div>
+
+      <div class="opp-card">
+        <div class="opp-header"><div><div class="opp-title">LG Electronics — Eco Solution Division</div><div style="font-size:12px;color:#666660;margin-top:2px">Korea · Marketing</div></div><div class="opp-amt">TBD</div></div>
+        <div class="opp-row"><div class="opp-key">Product</div><div class="opp-v">Explore+ &amp; Mira API</div></div>
+        <div class="opp-row"><div class="opp-key">Stage</div><div class="opp-v"><span class="pill pill-neutral">Initial stage</span></div></div>
+        <div class="opp-row"><div class="opp-key">Use case</div><div class="opp-v">Market research &amp; Consumer Insight</div></div>
+        <div class="opp-row"><div class="opp-key">Buzzing keywords</div><div class="opp-v"><span class="buzz-tag">AI agent for market sensing</span></div></div>
+        <div class="opp-row"><div class="opp-key">Contacts</div><div class="opp-v"><span class="contact-chip">Communicating through CNS — to be updated</span></div></div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3>HQ Engagement — Next Action Guide</h3>
+      <div class="row-item"><div class="row-label">LG CNS Partnership</div><div class="row-val">Confirm internal review timeline — prepare global partner contract structure in advance</div></div>
+      <div class="row-item"><div class="row-label">LGES (KR)</div><div class="row-val">Leverage PR case wins to expand to other business units — share with APAC AEs</div></div>
+      <div class="row-item"><div class="row-label">LG Display CN</div><div class="row-val">Progress deal while maintaining CNS channel — close collaboration with local CN AE required</div></div>
+      <div class="row-item"><div class="row-label">Eco Solution Div.</div><div class="row-val">Prepare Mira API demo + Explore+ use case materials to accelerate from initial stage</div></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ REGIONAL APPROACH ═══════════════ -->
+  <div id="approach" class="section">
+    <p class="section-title">Regional Approach — Subsidiaries &amp; Business Coverage</p>
+    <div class="rtabs">
+      <div class="rtab active" onclick="showRegion('amer',event)">AMER</div>
+      <div class="rtab" onclick="showRegion('apac',event)">APAC (ex-KR)</div>
+      <div class="rtab" onclick="showRegion('emea',event)">EMEA</div>
+    </div>
+
+    <div id="amer" class="rsection active">
+      <div class="region-header"><span class="region-badge rb-amer">Americas</span><span style="font-size:12px;color:#666660">US · Canada · Brazil · Mexico · Latin America</span></div>
+      <div class="sub-entity"><div class="sub-entity-header"><div><div class="sub-entity-name">LG Electronics USA (LGEUS)</div><div class="sub-entity-hq">HQ: Englewood Cliffs, NJ · B2B: Lincolnshire, IL</div></div><span class="pill pill-success">Largest subsidiary</span></div><div class="sub-biz">North America's largest LG subsidiary. Covers home appliances, OLED TVs, commercial displays, digital signage, HVAC, EV chargers, and B2B solutions (hospitality, healthcare, education, government, retail). B2B division operates separately with dedicated engineering and customer support teams.</div><div class="sub-tags"><span class="sub-tag">Home Appliance</span><span class="sub-tag">OLED TV</span><span class="sub-tag">Commercial Display</span><span class="sub-tag">Digital Signage</span><span class="sub-tag">HVAC</span><span class="sub-tag">EV Charger</span><span class="sub-tag">B2B Solutions</span></div></div>
+      <div class="sub-entity"><div class="sub-entity-header"><div><div class="sub-entity-name">LG Energy Solution — North America</div><div class="sub-entity-hq">Plants: Michigan, Arizona, Ohio (JVs w/ GM, Honda)</div></div><span class="pill pill-warn">Heavy capex</span></div><div class="sub-biz">EV battery manufacturing at scale. JVs include Ultium Cells (GM) in Ohio & Tennessee and LG Energy Solution Vertech (Honda) in Ohio. Expanding ESS production in Arizona for utility and commercial markets.</div><div class="sub-tags"><span class="sub-tag">EV Battery</span><span class="sub-tag">ESS</span><span class="sub-tag">JV w/ GM</span><span class="sub-tag">JV w/ Honda</span><span class="sub-tag">46-Series Cylindrical</span></div></div>
+      <div class="sub-entity"><div class="sub-entity-header"><div><div class="sub-entity-name">LG Chem — Americas</div><div class="sub-entity-hq">Holland, MI · various US/Canada sites</div></div><span class="pill pill-neutral">Chemicals</span></div><div class="sub-biz">Petrochemical and advanced materials serving automotive, packaging, and specialty polymer customers. Supplies cathode and separator materials to LGES battery operations.</div><div class="sub-tags"><span class="sub-tag">Petrochemicals</span><span class="sub-tag">Advanced Materials</span><span class="sub-tag">Battery Materials</span><span class="sub-tag">Life Science</span></div></div>
+      <div class="sub-entity"><div class="sub-entity-header"><div><div class="sub-entity-name">LG Innotek Americas</div><div class="sub-entity-hq">Alpharetta, GA · San Jose, CA</div></div><span class="pill pill-neutral">Components</span></div><div class="sub-biz">Camera modules and optical solutions primarily for Apple iPhone and automotive OEM customers. Supports EV motor, heat pump modules, and autonomous driving components.</div><div class="sub-tags"><span class="sub-tag">Camera Modules</span><span class="sub-tag">Optical Solutions</span><span class="sub-tag">Automotive Components</span><span class="sub-tag">Apple Supply Chain</span></div></div>
+      <div class="sub-entity"><div class="sub-entity-header"><div><div class="sub-entity-name">LG Electronics Brazil / Latin America</div><div class="sub-entity-hq">São Paulo · Mexico City</div></div><span class="pill pill-neutral">Growth market</span></div><div class="sub-biz">Consumer electronics, home appliances, and air conditioning across Latin America. Brazil is the largest LatAm market. HVAC and commercial display growing with urbanization trends.</div><div class="sub-tags"><span class="sub-tag">Home Appliance</span><span class="sub-tag">Air Conditioning</span><span class="sub-tag">TV</span><span class="sub-tag">Commercial Display</span></div></div>
+    </div>
+
+    <div id="apac" class="rsection">
+      <div class="region-header"><span class="region-badge rb-apac">APAC (ex-Korea)</span><span style="font-size:12px;color:#666660">China · Japan · India · SEA · ANZ</span></div>
+      <div class="sub-entity"><div class="sub-entity-header"><div><div class="sub-entity-name">LG Electronics China</div><div class="sub-entity-hq">Beijing · Shanghai · Guangzhou · Nanjing</div></div><span class="pill pill-warn">Competitive market</span></div><div class="sub-biz">Home appliances, HVAC, commercial displays, and B2B solutions. Facing intense price competition from local brands (Haier, Midea, Hisense). Strategy shifting toward premium and B2B. LG Display's Guangzhou plant is a major OLED manufacturing hub.</div><div class="sub-tags"><span class="sub-tag">Home Appliance</span><span class="sub-tag">HVAC</span><span class="sub-tag">Commercial Display</span><span class="sub-tag">OLED Manufacturing</span><span class="sub-tag">B2B</span></div></div>
+      <div class="sub-entity"><div class="sub-entity-header"><div><div class="sub-entity-name">LG Electronics Vietnam (LGEVH)</div><div class="sub-entity-hq">Hai Phong · Ho Chi Minh City</div></div><span class="pill pill-success">$3.84B · +9.8% YoY</span></div><div class="sub-biz">One of LG's highest-performing overseas subsidiaries. Major manufacturing hub for home appliances and displays exported globally. Ranked 3rd among all LG Electronics global subsidiaries.</div><div class="sub-tags"><span class="sub-tag">Manufacturing Hub</span><span class="sub-tag">Home Appliance</span><span class="sub-tag">Display Export</span><span class="sub-tag">High Growth</span></div></div>
+      <div class="sub-entity"><div class="sub-entity-header"><div><div class="sub-entity-name">LG Innotek Vietnam (LGITVH)</div><div class="sub-entity-hq">Hai Phong</div></div><span class="pill pill-neutral">$3.7B</span></div><div class="sub-biz">Major production site for camera modules and optical solutions, primarily serving the Apple supply chain. Ranked 4th among all LG Electronics global subsidiaries by revenue.</div><div class="sub-tags"><span class="sub-tag">Camera Modules</span><span class="sub-tag">Optical Components</span><span class="sub-tag">Apple Supply Chain</span><span class="sub-tag">Precision Manufacturing</span></div></div>
+      <div class="sub-entity"><div class="sub-entity-header"><div><div class="sub-entity-name">LG Electronics India</div><div class="sub-entity-hq">Greater Noida · Pune · Mumbai</div></div><span class="pill pill-success">High growth</span></div><div class="sub-biz">One of the fastest-growing LG markets. Strong in home appliances and air conditioning. Government-aligned infrastructure push supports HVAC and B2B commercial display expansion. Local manufacturing under "Make in India" initiative.</div><div class="sub-tags"><span class="sub-tag">Home Appliance</span><span class="sub-tag">Air Conditioning</span><span class="sub-tag">Commercial Display</span><span class="sub-tag">Make in India</span></div></div>
+      <div class="sub-entity"><div class="sub-entity-header"><div><div class="sub-entity-name">LG Electronics SEA (Singapore, Thailand, Indonesia…)</div><div class="sub-entity-hq">Regional HQ: Singapore</div></div><span class="pill pill-success">Hot — hospitality boom</span></div><div class="sub-biz">Rapid growth driven by hotel & resort expansion, retail modernization, and airport infrastructure across Southeast Asia. Strong demand for OLED signage and HVAC. Singapore serves as regional B2B coordination hub.</div><div class="sub-tags"><span class="sub-tag">Hospitality Signage</span><span class="sub-tag">Retail Display</span><span class="sub-tag">HVAC</span><span class="sub-tag">Airport Infra</span><span class="sub-tag">B2B Growth</span></div></div>
+      <div class="sub-entity"><div class="sub-entity-header"><div><div class="sub-entity-name">LG Energy Solution — China &amp; APAC</div><div class="sub-entity-hq">Nanjing JV</div></div><span class="pill pill-warn">EV pressure</span></div><div class="sub-biz">Battery manufacturing for EV and ESS in China serving local OEM customers. Competing with CATL and BYD. ESS expansion for grid-scale storage across APAC utility sector.</div><div class="sub-tags"><span class="sub-tag">EV Battery</span><span class="sub-tag">ESS</span><span class="sub-tag">China JV</span><span class="sub-tag">Grid Storage</span></div></div>
+    </div>
+
+    <div id="emea" class="rsection">
+      <div class="region-header"><span class="region-badge rb-emea">EMEA</span><span style="font-size:12px;color:#666660">Europe · Middle East · Africa</span></div>
+      <div class="sub-entity"><div class="sub-entity-header"><div><div class="sub-entity-name">LG Electronics Europe (LGEEL)</div><div class="sub-entity-hq">European HQ: Eschborn, Germany · UK · France · Poland</div></div><span class="pill pill-info">~22% of LGE revenue</span></div><div class="sub-biz">European HQ consolidated in Eschborn. Covers home appliances, OLED TVs, commercial displays, HVAC, and B2B solutions across Western and Eastern Europe. Strong in hospitality (Germany, France, UK) and public sector signage (airports, transit).</div><div class="sub-tags"><span class="sub-tag">OLED TV</span><span class="sub-tag">Home Appliance</span><span class="sub-tag">Commercial Display</span><span class="sub-tag">HVAC</span><span class="sub-tag">Hospitality B2B</span><span class="sub-tag">Public Sector</span></div></div>
+      <div class="sub-entity"><div class="sub-entity-header"><div><div class="sub-entity-name">LG Energy Solution — Europe (Poland)</div><div class="sub-entity-hq">Wroclaw, Poland</div></div><span class="pill pill-warn">EV battery supply</span></div><div class="sub-biz">Major EV battery plant serving European automakers (VW Group, Audi, Porsche, Renault). Critical node in Europe's EV supply chain under EU Battery Regulation. Expanding ESS capacity to meet EU renewable energy targets.</div><div class="sub-tags"><span class="sub-tag">EV Battery</span><span class="sub-tag">ESS Europe</span><span class="sub-tag">VW / Audi Supply</span><span class="sub-tag">EU Regulation</span></div></div>
+      <div class="sub-entity"><div class="sub-entity-header"><div><div class="sub-entity-name">LG Chem Europe</div><div class="sub-entity-hq">Frankfurt, Germany (EU Customer Solution Center, est. 2023)</div></div><span class="pill pill-neutral">Chemicals</span></div><div class="sub-biz">First European Customer Solution Center opened in Frankfurt (2023). Focus on specialty polymers, engineering plastics, and battery materials. Serves automotive, packaging, and electronics industries across Europe.</div><div class="sub-tags"><span class="sub-tag">Specialty Polymers</span><span class="sub-tag">Engineering Plastics</span><span class="sub-tag">Battery Materials</span><span class="sub-tag">Automotive Supply</span></div></div>
+      <div class="sub-entity"><div class="sub-entity-header"><div><div class="sub-entity-name">LG Display Europe</div><div class="sub-entity-hq">Germany · UK · Netherlands</div></div><span class="pill pill-neutral">OLED panels</span></div><div class="sub-biz">Sales and marketing of OLED display panels for TV manufacturers (Philips, Sony Europe, Panasonic) and commercial signage customers. Supplies LG Electronics Europe's signage product line.</div><div class="sub-tags"><span class="sub-tag">OLED Panels</span><span class="sub-tag">TV Panel Supply</span><span class="sub-tag">Commercial Signage</span><span class="sub-tag">B2B Panel Sales</span></div></div>
+      <div class="sub-entity"><div class="sub-entity-header"><div><div class="sub-entity-name">LG Electronics Middle East &amp; Africa (MEA)</div><div class="sub-entity-hq">MEA HQ: Dubai, UAE</div></div><span class="pill pill-warn">Large project cycles</span></div><div class="sub-biz">Covers GCC, Levant, and Africa. Large infrastructure projects (airports, hotels, smart cities) create significant signage and HVAC opportunities. Decision cycles are long but deal sizes are large.</div><div class="sub-tags"><span class="sub-tag">Smart City</span><span class="sub-tag">Hospitality Signage</span><span class="sub-tag">HVAC</span><span class="sub-tag">Airport Infra</span><span class="sub-tag">Government Projects</span></div></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ SALES INSIGHTS ═══════════════ -->
+  <div id="insight" class="section">
+    <p class="section-title">Sales Insights — LG Group Business Outcomes</p>
+
+    <div class="bo-card">
+      <div class="bo-header" onclick="toggleBO(this)"><div class="bo-num">BO 01</div><div class="bo-title">Accelerate Growth in High-Margin B2B and Future Businesses (EV, HVAC, Smart Solutions)</div><div class="bo-toggle">+</div></div>
+      <div class="bo-body">
+        <div class="bo-section-label">Outcome Statement</div>
+        <div class="bo-text">LG Electronics is prioritizing expansion beyond traditional consumer electronics into higher-margin B2B segments such as electric vehicle components, HVAC solutions, and smart commercial systems. The objective is to diversify revenue streams and drive more stable, long-term growth.</div>
+        <div class="bo-section-label">Why This Matters</div>
+        <div class="bo-why">Consumer electronics markets are cyclical and margin-constrained; shifting toward B2B and future industries improves profitability, reduces earnings volatility, and supports valuation multiples aligned with industrial and technology peers.</div>
+        <div class="bo-section-label">How to Leverage in Your Pitch</div>
+        <div class="bo-text">Position your solution as enabling LG's B2B ambition — through market intelligence (who are their B2B prospects?), brand building in new verticals, or supporting sales teams targeting EV/HVAC customers with data-driven insights.</div>
+        <div class="bo-section-label">Source Evidence</div>
+        <div class="bo-sources">
+          <a class="bo-link" href="https://www.reuters.com/business/lg-electronics-posts-strong-profit-ev-components-b2b-growth-2024-01-25/" target="_blank">Reuters — LG strong profit from EV components &amp; B2B growth</a>
+          <a class="bo-link" href="https://www.lg.com/global/investor-relations" target="_blank">LG Electronics IR — EV, HVAC &amp; B2B expansion materials</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="bo-card">
+      <div class="bo-header" onclick="toggleBO(this)"><div class="bo-num">BO 02</div><div class="bo-title">Improve Operating Efficiency and Profitability Under Cost Pressure</div><div class="bo-toggle">+</div></div>
+      <div class="bo-body">
+        <div class="bo-section-label">Outcome Statement</div>
+        <div class="bo-text">LG Electronics is focused on driving cost discipline, supply chain optimization, and operational efficiency to protect margins amid inflationary pressures and fluctuating global demand.</div>
+        <div class="bo-section-label">Why This Matters</div>
+        <div class="bo-why">Margin expansion and cost control are critical to maintaining profitability in a competitive hardware market with pricing pressure, directly impacting earnings stability and investor confidence.</div>
+        <div class="bo-section-label">How to Leverage in Your Pitch</div>
+        <div class="bo-text">Demonstrate how your solution reduces manual research hours, eliminates redundant vendor spend, or accelerates decision-making — helping LG teams do more with less. ROI and efficiency metrics are powerful entry points with procurement and CFO-level stakeholders.</div>
+        <div class="bo-section-label">Source Evidence</div>
+        <div class="bo-sources">
+          <a class="bo-link" href="https://www.reuters.com/technology/lg-electronics-focuses-cost-cutting-amid-demand-uncertainty-2023-10-27/" target="_blank">Reuters — LG cost controls &amp; margin focus</a>
+          <a class="bo-link" href="https://www.lg.com/global/investor-relations/earnings-release" target="_blank">LG Earnings Commentary — efficiency &amp; profitability improvements</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="bo-card">
+      <div class="bo-header" onclick="toggleBO(this)"><div class="bo-num">BO 03</div><div class="bo-title">Strengthen Premium Brand Positioning to Defend Pricing Power</div><div class="bo-toggle">+</div></div>
+      <div class="bo-body">
+        <div class="bo-section-label">Outcome Statement</div>
+        <div class="bo-text">LG is investing in premium product categories (OLED TVs, premium appliances) and brand equity to differentiate from low-cost competitors and sustain higher price points globally.</div>
+        <div class="bo-section-label">Why This Matters</div>
+        <div class="bo-why">In commoditizing electronics markets, brand strength and premium positioning are essential to maintaining margins, protecting market share, and avoiding race-to-the-bottom pricing dynamics.</div>
+        <div class="bo-section-label">How to Leverage in Your Pitch</div>
+        <div class="bo-text">Frame your solution around brand intelligence and competitive monitoring — helping LG understand how their premium narrative lands vs. competitors in each market. Media analytics, share of voice, and consumer sentiment tools are directly aligned to this outcome.</div>
+        <div class="bo-section-label">Source Evidence</div>
+        <div class="bo-sources">
+          <a class="bo-link" href="https://www.reuters.com/technology/lg-electronics-bets-premium-products-drive-growth-2023-07-27/" target="_blank">Reuters — LG bets on premium products for growth</a>
+          <a class="bo-link" href="https://www.lg.com/global/investor-relations" target="_blank">LG Electronics IR — premium strategy disclosures</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+function showTab(id,e){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  e.target.classList.add('active');
+}
+function showRegion(id,e){
+  document.querySelectorAll('.rtab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.rsection').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  e.target.classList.add('active');
+}
+function toggleBO(el){
+  const b=el.nextElementSibling;
+  const isOpen=b.classList.contains('open');
+  document.querySelectorAll('.bo-body').forEach(x=>x.classList.remove('open'));
+  document.querySelectorAll('.bo-toggle').forEach(x=>x.textContent='+');
+  if(!isOpen){b.classList.add('open');el.querySelector('.bo-toggle').textContent='−';}
+}
+</script>
+</body>
+</html>
